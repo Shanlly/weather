@@ -1,0 +1,29 @@
+.weather{
+	border-color:#344440;
+	border-style: solid;
+	border-width: 5px;
+}
+
+tr td{
+	border-color:#344440;
+	border-style: solid;
+	border-width: 2px;
+}
+
+body{
+	background-color: #94aaa4;
+}
+
+#weatherstation{
+	text-align: left;
+	font-color: #4d5563;
+	margin-left: 30px;
+}
+
+.glyphicon {
+	color:#228411;
+}
+
+#title {
+	font-size: 50px;
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Weather Berthoud Pass</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="weather.css">
+		<script
+			src="https://code.jquery.com/jquery-3.1.1.js"
+			integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+			crossorigin="anonymous">
+		</script>
+	</head>
+<body>
+<!-- this is title of page and pic of area-->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<header id="weatherstation">
+					<h1 id="title">
+					<span class="glyphicon glyphicon-tree-conifer">
+					</span>
+					The Current Weather at Berthoud Pass
+					<span>
+					<img id="berthoud_pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/DSCN2519_berthoudpass_e_600.jpg/280px-DSCN2519_berthoudpass_e_600.jpg" alt="picture of Berthoud Pass" height="150px" width="150px">
+					</span>
+					</h1>
+					<button id="refresh">Refresh</button>
+				</header>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="container-fluid">
+		<table class="table weather" > <!-- this is a table of the weather conditions-->
+			<th id="table_title">
+				<h2>Current Observations</h2>
+			</th>
+			<tr>
+				<td class="col-sm-3">Current Date and Time</td>
+				<td class="col-sm-3 refresh" id="date_data"></td>
+				<td class="col-sm-3">Temperature</td>
+				<td class="col-sm-3 refresh" id="temp_data"></td>		
+			</tr>
+			<tr>
+				<td class="col-sm-3">Dew Point</td>
+				<td class="col-sm-3 refresh" id="dew_data"></td>
+				<td class="col-sm-3">Cloud Cover</td>
+				<td class="col-sm-3 refresh" id="cloud_data"></td>
+			</tr>
+			<tr>
+				<td class="col-sm-3">Humidity</td>
+				<td class="col-sm-3 refresh" id="humid_data"></td>
+				<td class="col-sm-3">Wind Direction</td>
+				<td class="col-sm-3 refresh" id="wind_data"></td>
+			</tr>
+			<tr>
+				<td class="col-sm-3">Wind Speed </td>
+				<td class="col-sm-3 refresh" id="windSp_data"></td>
+				<td class="col-sm-3">Longitude</td>
+				<td class="col-sm-3 refresh" id="lng_data"></td>
+			</tr>
+		</table>
+	</div>
+	<script>
+	// this is my get function to request weather information 
+		$(document).ready(function(){
+			function refresh(){
+			$.get('http://api.geonames.org/weatherJSON?north=41&south=39&east=-104&west=-106&username=ertyseidohl', function(res){
+				//these two vars change the C to F 
+				var celToFar = parseInt(res.weatherObservations[3].temperature)+( 9 / 5 + 32);
+				var dew=parseInt(res.weatherObservations[3].dewPoint)+( 9 / 5 + 32);
+					$('#temp_data').append(celToFar +' F');
+					$('#date_data').append(res.weatherObservations[3].datetime);
+					$('#cloud_data').append(res.weatherObservations[3].clouds);
+					$('#dew_data').append(dew + ' F');
+					$('#humid_data').append(res.weatherObservations[3].humidity + ' %');
+					$('#wind_data').append(res.weatherObservations[3].windDirection);
+					$('#windSp_data').append(res.weatherObservations[3].windSpeed + ' mph');
+					$('#lng_data').append(res.weatherObservations[3].lng);
+					});
+				}
+				$('#refresh').click(function getWeather(){
+					$('.refresh').empty();
+					refresh();
+				});
+           refresh();
+		});
+
+	</script>
+</body>
+</html>
